@@ -1,0 +1,19 @@
+{
+  "name": "assist-gql-be",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gfx96/ASSIST-graphQL-PlayAndLearn-BE.git"
+  },
+  "author": "Vasilache Andrei, Roxana Bandol",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gfx96/ASSIST-graphQL-PlayAndLearn-BE/issues"
+  },
+  "homepage": "https://github.com/gfx96/ASSIST-graphQL-PlayAndLearn-BE#readme"
+}
