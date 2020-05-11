@@ -1,26 +1,26 @@
-import { gql } from "apollo-server";
+import { gql } from "apollo-server-express";
 
 const typeDefs = gql`
   # A Twitter User
   type User {
-    id: ID!,
-    name: String!,
-    profileImgUrl: String 
+    id: ID!
+    name: String!
+    profileImgUrl: String
   }
 
   # A Tweet Object
   type Post {
-    id: ID!,
+    id: ID!
     description: String!
     date: String!
-    reactions: [ID];
+    reactions: [ID]
     userId: String!
   }
 
   type Query {
-    posts: [Post]    
+    posts: [Post]
     user(id: String!): User
-    post(id:String!): Post
+    post(id: String!): Post
   }
 `;
 

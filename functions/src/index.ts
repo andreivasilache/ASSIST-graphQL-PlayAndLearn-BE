@@ -3,13 +3,15 @@ import { ApolloServer } from "apollo-server-express";
 
 import typeDefs from "./typedefSchemas/index";
 import resolvers from "./resolvers/resolvers";
+import express from "express";
 
-const express = require("express");
 const app = express();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
+  introspection: true,
+  playground: true,
 });
 
 server.applyMiddleware({ app, path: "/", cors: true });
