@@ -1,14 +1,16 @@
 import * as functions from "firebase-functions";
-import { ApolloServer, ApolloError, ValidationError, gql } from "apollo-server";
+import { ApolloServer } from "apollo-server-express";
+
 import typeDefs from "./typedefSchemas/index";
 import resolvers from "./resolvers/resolvers";
+
+const express = require("express");
+const app = express();
 
 const server = new ApolloServer({
   typeDefs,
   resolvers,
-  introspection: true,
 });
 
-export const helloWorld = functions.https.onRequest((request, response) => {
-  response.send("Hello from Firebase!");
-});
+server.applyMiddleware({ app, path: "/", cors: true });
+exports.graphql = functions.https.onRequest(app);
