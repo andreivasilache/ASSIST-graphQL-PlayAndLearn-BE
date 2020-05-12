@@ -5,6 +5,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 firebase-debug.log*
+assist-gql-presentation-firebase-adminsdk-b6ont-708749a784.json
 
 # Firebase cache
 .firebase/
