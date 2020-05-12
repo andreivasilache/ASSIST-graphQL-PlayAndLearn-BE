@@ -6,6 +6,8 @@ import resolvers from "./resolvers/resolvers";
 import express from "express";
 
 const app = express();
+const cors = require("cors");
+app.options("*", cors());
 
 const server = new ApolloServer({
   typeDefs,
