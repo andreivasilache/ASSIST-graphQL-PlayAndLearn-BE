@@ -4,7 +4,7 @@ const typeDefs = gql`
   # A Twitter User
   type User {
     id: ID!
-    name: String!
+    name: String
     profileImgUrl: String
   }
 
@@ -14,7 +14,7 @@ const typeDefs = gql`
     description: String!
     date: String!
     reactions: [ID]
-    userId: String!
+    user: User!
   }
 
   type Query {
