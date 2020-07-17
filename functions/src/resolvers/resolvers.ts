@@ -27,9 +27,13 @@ async function getCompletedPosts(rawPosts: Post[]){
   return Promise.resolve(toBeReturned)
 }
 
-async function getPost(postId: string): Promise<Post>{
-  const post = (await (await admin.firestore().collection('posts').doc(postId).get()).data()) as Post; 
-  return post
+async function getPost(postId: any): Promise<Post>{
+  try{
+    const post = (await (await admin.firestore().collection('posts').doc(postId).get()).data()) as Post; 
+    return post
+  }catch(err){
+    return Promise.reject(null)
+  }
 }
 
 const resolvers = {
@@ -43,24 +47,26 @@ const resolvers = {
       return completedPosts;
     },
     async user(_: null, args: { id: string }) {
-      // const user = await admin.firestore().collection("users").get();
       const user = await getUserById(args.id)
       return user
     }
   },
   Mutation: {
-    async toggleLike(userId: string, postId: string){
-      const currentPost = await getPost(postId)
-      const postLikesIds = currentPost.reactions
-      const indexOfPost = postLikesIds.indexOf(userId) 
-      
-      if(indexOfPost !== -1){
-        postLikesIds.splice(indexOfPost, 1)
+     toggleLike : async (_:null,args:{userId:string, postId:string})=> {
+      console.log(args.userId, args.postId)
+      const currentPost = await getPost(args.postId)
+      if(currentPost){
+        const postLikesIds = currentPost.reactions
+        const indexOfPost = postLikesIds.indexOf(args.userId) 
+
+        indexOfPost !== -1 ? postLikesIds.splice(indexOfPost, 1) : postLikesIds.push(args.userId)
+        await admin.firestore().doc(`posts/${args.postId}`).update({reactions: postLikesIds})
+        
+        return {message: "Success!"} 
       }else{
-        postLikesIds.push(userId)
+        return {message: "Wrong args passed :("} 
       }
-      await admin.firestore().doc(`posts/${postId}`).update({reactions: postLikesIds})
-      return "Success!"
+    
     },
   }
 };

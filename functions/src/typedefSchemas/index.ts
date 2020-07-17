@@ -22,6 +22,14 @@ const typeDefs = gql`
     user(id: String!): User
     post(id: String!): Post
   }
+
+  type Response {
+    message: String
+  }
+
+  type Mutation{
+    toggleLike(userId: String!, postId: String!): Response 
+  }
 `;
 
 export default typeDefs;
