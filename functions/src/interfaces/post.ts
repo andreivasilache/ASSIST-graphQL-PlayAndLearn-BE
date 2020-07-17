@@ -1,9 +1,9 @@
 import { User } from "./user";
 
 export interface Post {
-  id: string;
+  id?: string;
   description: string;
   date: string;
-  reactions: [string];
+  reactions: Array<string>;
   user: User;
 }

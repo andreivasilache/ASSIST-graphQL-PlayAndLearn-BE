@@ -66,7 +66,17 @@ const resolvers = {
       }else{
         return {message: "Wrong args passed :("} 
       }
-    
+    },
+    createPost : async (_:null, args:{description:string, user:any})=> {
+      const tbr: Post = {
+        date: +new Date() + "",
+        description: args.description,
+        user: args.user,
+        reactions: [],
+      }
+
+      await admin.firestore().collection("posts").add(tbr).then(data => tbr.id = data.id)
+      return tbr;
     },
   }
 };

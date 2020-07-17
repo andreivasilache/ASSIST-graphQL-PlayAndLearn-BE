@@ -29,6 +29,7 @@ const typeDefs = gql`
 
   type Mutation{
     toggleLike(userId: String!, postId: String!): Response 
+    createPost(description: String!, user: ID!): Post 
   }
 `;
 
