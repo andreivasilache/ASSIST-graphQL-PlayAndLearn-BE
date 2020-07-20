@@ -31,6 +31,10 @@ const typeDefs = gql`
     toggleLike(userId: String!, postId: String!): Response 
     createPost(description: String!, user: ID!): Post 
   }
+
+  type Subscription {
+    postAdded: Post! 
+  }
 `;
 
 export default typeDefs;

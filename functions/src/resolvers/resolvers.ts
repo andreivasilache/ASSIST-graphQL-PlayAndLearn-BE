@@ -1,12 +1,19 @@
 import * as admin from "firebase-admin";
 import { Post } from "../interfaces/post";
 import { User } from "../interfaces/user";
+const { PubSub } = require('apollo-server');
 
 const credentials = require("./../../assist-gql-presentation-firebase-adminsdk-b6ont-708749a784.json");
 admin.initializeApp({
   credential: admin.credential.cert(credentials),
   databaseURL: "https://assist-gql-presentation.firebaseio.com",
 });
+
+const pubsub = new PubSub();
+
+setTimeout(() => {
+  pubsub.publish(POST_ADDED, {});
+}, 2000);
 
 async function getUserById(userId: string){
   const userData = (await (await admin.firestore().collection('users').doc(userId).get()).data()) as User; 
@@ -35,7 +42,7 @@ async function getPost(postId: any): Promise<Post>{
     return Promise.reject(null)
   }
 }
-
+const POST_ADDED: string = "POST_ADDED";
 const resolvers = {
   Query: {
     async posts() {
@@ -49,7 +56,7 @@ const resolvers = {
     async user(_: null, args: { id: string }) {
       const user = await getUserById(args.id)
       return user
-    }
+    },
   },
   Mutation: {
      toggleLike : async (_:null,args:{userId:string, postId:string})=> {
@@ -76,9 +83,19 @@ const resolvers = {
       }
 
       await admin.firestore().collection("posts").add(tbr).then(data => tbr.id = data.id)
+
+      // pubsub.publish(POST_ADDED, {
+      //   postAdded:tbr
+      // });
+
       return tbr;
     },
-  }
+  },
+  Subscription: {
+    postAdded: {
+      subscribe: (_: null, __:null, { pubsub }:any) => pubsub.asyncIterator(POST_ADDED)
+    }
+},
 };
 
 export default resolvers;
