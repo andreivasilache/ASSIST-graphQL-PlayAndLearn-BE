@@ -32,9 +32,6 @@ const typeDefs = gql`
     createPost(description: String!, user: ID!): Post 
   }
 
-  type Subscription {
-    postAdded: Post! 
-  }
 `;
 
 export default typeDefs;
